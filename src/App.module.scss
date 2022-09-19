@@ -1,13 +1,47 @@
+
+$template-primary:darkslategray;
+
+$color-header-1: $template-primary;
+
+$content-padding: 1rem;
+
 .app{
   height: 100%;
   display: flex;
   flex-flow: column nowrap;
+  overflow: hidden;
 
-  .header{
+  .headerContainer{
     flex: 0 1 auto;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    background-color: darkslategray;
+
+    .header{
+      display: flex;
+      flex-flow: row nowrap;
+      flex: 1 1 auto;
+      .links{
+        flex: 1 1 auto;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-evenly;
+
+        a{
+          align-self: center;
+        }
+      }
+    }
+
   }
 
-  .content{
+  .contentContainer{
     flex: 1 1 auto;
+    width: 100%;
+    .content{
+      height: 100%;
+      padding-top: $content-padding;
+    }
   }
 }
