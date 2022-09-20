@@ -1,10 +1,13 @@
 import { useContext } from "react";
 
 import AuthContext from "./AuthContext";
-import {PlanningUser} from "../../types";
 
 const useAuth = () => {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser, providerEstablished } = useContext(AuthContext);
+
+    if (!providerEstablished) {
+       throw new Error("useAuth requires existing AuthProvider implementation");
+    }
 
     return {
         user,

@@ -10,7 +10,7 @@ export interface AuthProviderProps{
 const AuthProvider: React.FC<PropsWithChildren<AuthProviderProps>> = ({providedUser, children}) => {
     const [user, setUser] = useState<PlanningUser|undefined>(providedUser);
     return (
-        <AuthContext.Provider value={{user, setUser}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{user, setUser, providerEstablished: true}}>{children}</AuthContext.Provider>
     );
 };
 

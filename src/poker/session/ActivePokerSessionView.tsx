@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PokerSession } from "../types";
+import { PokerSession } from "../../types";
 
 export interface ActivePokerSessionViewProps{
     session: PokerSession;
