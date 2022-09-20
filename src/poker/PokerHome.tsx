@@ -4,14 +4,20 @@ import { useNavigate, NavLink } from "react-router-dom";
 import useApi from "../context/api/useApi";
 
 import { PokerSession } from "../types";
+import useMessaging from "../context/messaging/useMessaging";
 
 const PokerHome:React.FC = () => {
     const [ sessions, setSessions ] = useState<PokerSession[]>([]);
+    const { joinPoker, leavePoker } = useMessaging();
     const navigate = useNavigate();
     const { getPokerSessions } = useApi();
 
     useEffect(()=>{
         getPokerSessions().then(setSessions);
+        joinPoker();
+        return (()=>{
+            leavePoker();
+        });
     },[]);
 
     const createNew = () => {

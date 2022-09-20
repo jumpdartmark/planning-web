@@ -4,9 +4,11 @@ import { PokerSession, PokerItem } from "../../types";
 import useApi from "../../context/api/useApi";
 
 import styles from "./ActivePokerSession.module.scss";
+import useMessaging from "../../context/messaging/useMessaging";
 
 const EditPokerSession:React.FC = () => {
     const { sessionId } = useParams<{sessionId:string}>();
+    const { joinPokerSession, leavePokerSession } = useMessaging();
     const [ session, setSession ] = useState<PokerSession>();
     const [ currentItem, setCurrentItem ] = useState<PokerItem>();
     const { getPokerSessionById } = useApi();
@@ -22,7 +24,11 @@ const EditPokerSession:React.FC = () => {
         if(!session?.id){
             return;
         }
+        joinPokerSession(session!.id,()=>{});
         setCurrentItem(session!.items[0]);
+        return(()=>{
+            leavePokerSession(session!.id);
+        });
     },[session?.id]);
     return (
         <div className={styles.session}>
