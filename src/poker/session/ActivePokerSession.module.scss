@@ -1,0 +1,26 @@
+.session{
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .header{
+    flex: 0 1 auto;
+  }
+  .body{
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row;
+  }
+}
+
+.playerControls{
+  flex: 0 1 auto;
+}
+
+.currentItem{
+  flex: 1 1 auto;
+}
+
+.itemList{
+  flex: 0 1 auto;
+}

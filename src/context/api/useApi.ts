@@ -13,12 +13,12 @@ const useApi = () => {
 
     const getPokerSessionById = async(sessionId:String) => {
         const sessions = await axios.get(`${baseUrl}/sessions/${sessionId}`);
-        return sessions.data as PokerSession[];
+        return sessions.data as PokerSession;
     }
 
     const getPokerSessionItems = async(sessionId:String) => {
         const sessions = await axios.get(`${baseUrl}/sessions/${sessionId}/items`);
-        return sessions.data as PokerSession[];
+        return sessions.data as PokerItem[];
     }
 
     const getPokerSessionParticipants = async(sessionId:String) => {

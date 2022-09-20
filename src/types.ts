@@ -21,7 +21,6 @@ export interface PokerItem{
 
 export interface PokerSessionConfig{
     name: string;
-    id: string;
     cardOptions: string[]
 }
 
@@ -32,6 +31,7 @@ export interface PokerParticipant{
 }
 
 export interface PokerSession{
+    id: string;
     config: PokerSessionConfig;
     items: PokerItem[];
     participants: PokerParticipant[];
