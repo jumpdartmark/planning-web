@@ -1,6 +1,10 @@
-# Getting Started with Create React App
+# Planning - Web
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+front end for planning app
+
+## Getting started
+
+this app required a .env file with the server url set REACT_APP_SERVER_URL=http://localhost:3313
 
 ## Available Scripts
 
