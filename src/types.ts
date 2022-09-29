@@ -57,6 +57,13 @@ export interface PokerSession{
     participants: PokerParticipant[];
 }
 
+export interface PokerSessionSummary{
+    id: string;
+    title: string;
+    itemCount:number;
+    activeParticipantCount:number;
+}
+
 export interface PlanningMessage{
     user: PlanningUser;
     payload: any;

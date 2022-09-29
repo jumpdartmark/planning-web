@@ -4,7 +4,7 @@ front end for planning app
 
 ## Getting started
 
-this app required a .env file with the server url set REACT_APP_SERVER_URL=http://localhost:3313
+this app required a .env file with the server url set REACT_APP_SERVER_URL=http://localhost:3314
 
 ## Available Scripts
 

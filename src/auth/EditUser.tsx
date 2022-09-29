@@ -18,7 +18,7 @@ const EditUser: React.FC<EditUserProps> = ({user, onUpdate}) => {
     };
 
     const saveChanges = () => {
-        const newUser: PlanningUser = { name: userName };
+        const newUser: PlanningUser = new PlanningUser(userName, user?.id);
         onUpdate(newUser);
     };
 

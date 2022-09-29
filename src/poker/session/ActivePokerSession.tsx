@@ -5,10 +5,11 @@ import useApi from "../../context/api/useApi";
 
 import styles from "./ActivePokerSession.module.scss";
 import useMessaging from "../../context/messaging/useMessaging";
+import useLogUpdates from "../../hooks/useLogUpdates";
 
 const EditPokerSession:React.FC = () => {
     const { sessionId } = useParams<{sessionId:string}>();
-    const { joinPokerSession, leavePokerSession } = useMessaging();
+    // const { joinPokerSession, leavePokerSession } = useMessaging();
     const [ session, setSession ] = useState<PokerSession>();
     const [ currentItem, setCurrentItem ] = useState<PokerItem>();
     const { getPokerSessionById } = useApi();
@@ -18,8 +19,10 @@ const EditPokerSession:React.FC = () => {
             return;
         }
         getPokerSessionById(sessionId).then(setSession);
-    },[sessionId]);
+    },[getPokerSessionById, sessionId]);
 
+    useLogUpdates({session},"EditPokerSession");
+/*
     useEffect(()=>{
         if(!session?.id){
             return;
@@ -29,7 +32,8 @@ const EditPokerSession:React.FC = () => {
         return(()=>{
             leavePokerSession(session!.id);
         });
-    },[session?.id]);
+    },[joinPokerSession, leavePokerSession, session, session?.id]);
+    */
     return (
         <div className={styles.session}>
             <div className={styles.header}>

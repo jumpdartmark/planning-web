@@ -4,6 +4,7 @@ import { io, Socket } from "socket.io-client";
 import MessagingContext, {iMessagingContext} from "./MessagingContext";
 import {PlanningMessage, PlanningUser} from "../../types";
 import useAuth from "../auth/useAuth";
+import CONSTANTS from "../../constants";
 
 export interface MessagingProviderProps{}
 
@@ -12,6 +13,7 @@ const sendMessage = (socket: Socket, user: PlanningUser, messageChannel: string,
         user,
         payload: messagePayload,
     };
+    console.log(`emmitting message ${messageChannel}`, message);
     socket.emit(messageChannel, message);
 }
 
@@ -20,6 +22,8 @@ const MessagingProvider: React.FC<PropsWithChildren<MessagingProviderProps>> = (
     const [socket, setSocket] = useState<Socket>();
     const [isConnected, setIsConnected] = useState(false);
     const [localUser, setLocalUser] = useState(user);
+    const [pokerUpdateHandler, setPokerUpdateHandler] = useState<(args:any[])=>void>(console.log);
+    const [pokerSessionUpdateHandler, setPokerSessionUpdateHandler] = useState<(args:any[])=>void>(console.info);
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -32,19 +36,58 @@ const MessagingProvider: React.FC<PropsWithChildren<MessagingProviderProps>> = (
             return;
         }
         const localSocket = io(serverUrl);
+        localSocket.onAny((m) => {
+            console.log("&&&&&&&&&&&&&&&&&&&&&&");
+            console.log(m);
+        });
+        localSocket.on(CONSTANTS.MESSAGING.POKER_UPDATE_MESSAGE, (m) => {
+            console.log("&&&&&&&&&CONSTANTS.MESSAGING.POKER_UPDATE_MESSAGE&&&&&&&&&&&&&");
+            console.log(m);
+        });
         localSocket.on("connect", () => {
+            localSocket.emit("woohoo","I think it worked");
+            console.log("connect");
             setIsConnected(true);
         });
         localSocket.on("disconnect", () => {
+            console.log("disconnect");
             setIsConnected(false);
         });
         setSocket(localSocket);
         return(() => {
-            if(socket?.connected){
-                socket.disconnect();
+            localSocket.off('connect');
+            localSocket.off('disconnect');
+            if(localSocket?.connected){
+                localSocket.disconnect();
             }
         });
-    }, [serverUrl, socket]);
+    }, [serverUrl]);
+
+    /*
+    useEffect(() => {
+        if(socket){
+            socket.off(CONSTANTS.MESSAGING.POKER_SESSION_MESSAGE);
+            socket.on(CONSTANTS.MESSAGING.POKER_SESSION_MESSAGE, pokerSessionUpdateHandler);
+        }
+        return(() => {
+            if(socket){
+                socket.off(CONSTANTS.MESSAGING.POKER_SESSION_MESSAGE);
+            }
+        });
+    }, [socket, pokerUpdateHandler, pokerSessionUpdateHandler]);
+
+    useEffect(() => {
+        if(socket){
+            socket.off(CONSTANTS.MESSAGING.POKER_UPDATE_MESSAGE);
+            socket.on(CONSTANTS.MESSAGING.POKER_UPDATE_MESSAGE, pokerUpdateHandler);
+        }
+        return(() => {
+            if(socket){
+                socket.off(CONSTANTS.MESSAGING.POKER_UPDATE_MESSAGE);
+            }
+        });
+    }, [socket, pokerUpdateHandler, pokerSessionUpdateHandler]);
+    */
 
     const joinRoom = useCallback((roomName:string, socket?: Socket ) => {
         if (!localUser) { return; }
@@ -52,7 +95,8 @@ const MessagingProvider: React.FC<PropsWithChildren<MessagingProviderProps>> = (
             console.warn(`could not emit join message for room ${roomName}`);
             return;
         }
-        sendMessage(socket, localUser, 'join-room', roomName);
+        console.log('joining room', roomName);
+        sendMessage(socket, localUser, CONSTANTS.MESSAGING.JOIN_ROOM_MESSAGE, roomName);
     },[localUser]);
 
     const leaveRoom = useCallback((roomName:string, socket?: Socket ) => {
@@ -61,7 +105,7 @@ const MessagingProvider: React.FC<PropsWithChildren<MessagingProviderProps>> = (
             console.warn(`could not emit leave message for room ${roomName}`);
             return;
         }
-        sendMessage(socket, localUser, 'leave-room', roomName);
+        sendMessage(socket, localUser, CONSTANTS.MESSAGING.LEAVE_ROOM_MESSAGE, roomName);
     },[localUser]);
 
     const joinPoker = useCallback(() => {

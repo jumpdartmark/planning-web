@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import axios from "axios";
 
 import { PokerSession, PokerSessionConfig, PokerItem } from "../../types";
@@ -6,44 +8,44 @@ const useApi = () => {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     const baseUrl = `${serverUrl}/api/poker`;
 
-    const getPokerSessions = async() => {
+    const getPokerSessions = useCallback(async() => {
         const sessions = await axios.get(`${baseUrl}/sessions`);
         return sessions.data as PokerSession[];
-    }
+    },[baseUrl]);
 
-    const getPokerSessionById = async(sessionId:String) => {
+    const getPokerSessionById = useCallback(async(sessionId:String) => {
         const sessions = await axios.get(`${baseUrl}/sessions/${sessionId}`);
         return sessions.data as PokerSession;
-    }
+    },[baseUrl]);
 
-    const getPokerSessionItems = async(sessionId:String) => {
+    const getPokerSessionItems = useCallback(async(sessionId:String) => {
         const sessions = await axios.get(`${baseUrl}/sessions/${sessionId}/items`);
         return sessions.data as PokerItem[];
-    }
+    },[baseUrl]);
 
-    const getPokerSessionParticipants = async(sessionId:String) => {
-    }
+    const getPokerSessionParticipants = useCallback(async(sessionId:String) => {
+    },[]);
 
-    const addPokerSession = async(config: PokerSessionConfig) => {
-    }
+    const addPokerSession = useCallback(async(config: PokerSessionConfig) => {
+    },[]);
 
-    const modifyPokerSession = async(sessionId:String, config: PokerSessionConfig) => {
-    }
+    const modifyPokerSession = useCallback(async(sessionId:String, config: PokerSessionConfig) => {
+    },[]);
 
-    const addPokerSessionItem = async(sessionId:String, title:string, description?: string) => {
-    }
+    const addPokerSessionItem = useCallback(async(sessionId:String, title:string, description?: string) => {
+    },[]);
 
-    const getSessionItem = async(sessionItemId:string) => {
-    }
+    const getSessionItem = useCallback(async(sessionItemId:string) => {
+    },[]);
 
-    const editPokerSessionItem = async(itemChanges: PokerItem) => {
-    }
+    const editPokerSessionItem = useCallback(async(itemChanges: PokerItem) => {
+    },[]);
 
-    const removePokerSessionItem = async(sessionItemId: string) => {
-    }
+    const removePokerSessionItem = useCallback(async(sessionItemId: string) => {
+    },[]);
 
-    const voteOnPokerSessionItem = async(sessionItemId: string, playerId: string, vote?: string) => {
-    }
+    const voteOnPokerSessionItem = useCallback(async(sessionItemId: string, playerId: string, vote?: string) => {
+    },[]);
 
     return {
         getPokerSessions,
