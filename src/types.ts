@@ -1,5 +1,25 @@
-export interface PlanningUser{
-    name?: string;
+import { v4 as uuidv4 } from 'uuid';
+
+export class PlanningUser{
+    #name: string;
+    #id: string;
+    constructor(userName?:string, userId?:string) {
+        this.#name = userName || "unknown";
+        this.#id = userId || uuidv4().substring(0,5);
+    }
+    get name(){
+        return this.#name;
+    }
+    set name(name:string){
+        this.#name = name;
+    }
+
+    get id(){
+        return this.#name;
+    }
+    set id(userId:string){
+        this.#id = userId;
+    }
 }
 
 export interface PokerVote{
@@ -35,4 +55,9 @@ export interface PokerSession{
     config: PokerSessionConfig;
     items: PokerItem[];
     participants: PokerParticipant[];
+}
+
+export interface PlanningMessage{
+    user: PlanningUser;
+    payload: any;
 }

@@ -8,6 +8,7 @@ export interface iMessagingContext{
     joinPoker: () => void;
     leavePoker: () => void;
     providerEstablished: boolean;
+    isConnected: boolean;
 }
 
 const MessagingContext = React.createContext<iMessagingContext>({
@@ -16,6 +17,7 @@ const MessagingContext = React.createContext<iMessagingContext>({
     leavePoker(): void {},
     leavePokerSession(sessionId: string): void {},
     providerEstablished: false,
+    isConnected: false,
 });
 
 export default MessagingContext;
